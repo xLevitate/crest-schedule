@@ -6,6 +6,34 @@ A powerful and intuitive task scheduling library for Bukkit/Paper plugins with f
 
 Crest Schedule provides a modern, chainable API for scheduling synchronous and asynchronous tasks in Minecraft plugins. It supports delays, repeating tasks, timeouts, error handling, task groups, and advanced chaining operations.
 
+## Installation
+
+Add JitPack repository to your `build.gradle` or `build.gradle.kts`:
+
+**Gradle (Groovy DSL):**
+```gradle
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation 'com.github.xLevitate:crest-schedule:v1.0.0'
+}
+```
+
+**Gradle (Kotlin DSL):**
+```kotlin
+repositories {
+    mavenCentral()
+    maven("https://jitpack.io")
+}
+
+dependencies {
+    implementation("com.github.xLevitate:crest-schedule:v1.0.0")
+}
+```
+
 ## Usage
 
 ### Basic Setup

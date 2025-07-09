@@ -1,8 +1,6 @@
 plugins {
     id("java-library")
     id("maven-publish")
-    id("io.papermc.paperweight.userdev") version "1.5.11"
-    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = "com.moocrest"
@@ -14,44 +12,63 @@ repositories {
 }
 
 dependencies {
-    paperweight.paperDevBundle("1.20.4-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT")
     
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
     testImplementation("org.mockito:mockito-core:5.8.0")
-    testImplementation("com.github.seeseemelk:MockBukkit-v1.20:3.9.0")
+    testImplementation("io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT")
 }
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+    withSourcesJar()
+    withJavadocJar()
 }
 
-tasks {
-    compileJava {
-        options.encoding = Charsets.UTF_8.name()
-        options.release.set(17)
-    }
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
+    options.release.set(17)
+}
 
-    shadowJar {
-        archiveClassifier.set("")
-    }
+tasks.withType<Javadoc> {
+    options.encoding = "UTF-8"
+}
 
-    javadoc {
-        options.encoding = Charsets.UTF_8.name()
-    }
-
-    test {
-        useJUnitPlatform()
-    }
-
-    assemble {
-        dependsOn(reobfJar)
-    }
+tasks.test {
+    useJUnitPlatform()
 }
 
 publishing {
     publications {
         create<MavenPublication>("maven") {
             from(components["java"])
+            
+            pom {
+                name.set("Crest Schedule")
+                description.set("A powerful and intuitive task scheduling library for Bukkit/Paper plugins")
+                url.set("https://github.com/xLevitate/crest-schedule")
+                
+                licenses {
+                    license {
+                        name.set("MIT License")
+                        url.set("https://opensource.org/licenses/MIT")
+                    }
+                }
+                
+                developers {
+                    developer {
+                        id.set("xLevitate")
+                        name.set("xLevitate")
+                    }
+                }
+                
+                scm {
+                    connection.set("scm:git:git://github.com/xLevitate/crest-schedule.git")
+                    developerConnection.set("scm:git:ssh://github.com:xLevitate/crest-schedule.git")
+                    url.set("https://github.com/xLevitate/crest-schedule/tree/main")
+                }
+            }
         }
     }
 }
